@@ -1,53 +1,64 @@
-# TAG — Teaching AI to Game using RL
+# Teaching AI to Game using RL (TAG)
 
-A research project exploring **Reinforcement Learning** applied to game agents. Three DQN-family algorithms — DQN, Dueling DQN, and Double DQN (DDQN) — are trained and evaluated in a game environment, with training statistics tracked and compared across runs.
+A research project comparing **DQN-family reinforcement learning algorithms** trained to play a game from scratch. Three architectures Dueling DQN, Double DQN (DDQN), and Dueling DDQN are implemented, trained, and evaluated, with full statistics and pre-trained models included.
 
-## About
+---
 
-TAG was developed as part of academic research into how well different RL architectures learn to play a game from scratch. The project implements and compares three variants of Deep Q-Networks:
+## Algorithms
 
-- **DQN** — the baseline Deep Q-Network
-- **Dueling DQN** — separates state value and action advantage estimation for more stable learning
-- **DDQN (Double DQN)** — decouples action selection from Q-value evaluation to reduce overestimation bias
-- **Dueling DDQN** — combines both improvements
+| Algorithm | Key Idea |
+|-----------|----------|
+| **Dueling DQN** | Splits Q(s,a) into V(s) + A(s,a); better value estimation in dense action spaces |
+| **DDQN (Double DQN)** | Decouples action selection from Q-value evaluation to reduce overestimation bias |
+| **Dueling DDQN** | Combines both improvements for more stable, accurate learning |
 
-Each algorithm has a save and load variant for continuing training across sessions. Training statistics are logged and stored in `Stats.xlsx` and the `statistics/` directory for analysis. Pre-trained models are included in `models/` and training progression videos are in `Videos/`.
+Each algorithm has a **Save** and **Load** variant — train from scratch or continue from a checkpoint.
+
+---
 
 ## Repo Structure
 
 ```
-Code/           # Python training scripts (save/load variants per algorithm)
-models/         # Saved model checkpoints
-statistics/     # Training logs and reward curves
-Videos/         # Agent gameplay recordings at various training stages
-Stats.xlsx      # Aggregated training statistics for comparison
+Code/
+  ddqn                     - Save.py # Train DDQN from scratch
+  ddqn                     - Load.py # Resume DDQN training from checkpoint
+  dueling_dqn              - Save.py
+  dueling_dqn              - Load.py
+  dueling_ddqn             - Save.py
+  dueling_ddqn             - Load.py
+models/                    # Saved model checkpoints
+statistics/                # Training logs and reward curves
+Videos/                    # Agent gameplay recordings across training stages
+Stats.xlsx                 # Aggregated training statistics for cross-algorithm comparison
 ```
 
-## Algorithms Implemented
-
-| Algorithm | Key Idea |
-|---|---|
-| DQN | Neural network approximates Q-values; experience replay + target network |
-| Dueling DQN | Splits Q into V(s) + A(s,a); better value estimation in dense action spaces |
-| Double DQN | Uses online network to select actions, target network to evaluate them |
-| Dueling DDQN | Combines dueling architecture with double Q-learning |
-
-## Tech
-
-- **Language:** Python
-- **Libraries:** TensorFlow / Keras, NumPy, OpenAI Gym (or custom environment)
-- **Tracking:** Custom stats logging → Excel / matplotlib
+---
 
 ## Running
 
 ```bash
 pip install -r requirements.txt
 
-# Train from scratch
+# Train DDQN from scratch
 python "Code/ddqn - Save.py"
 
-# Continue from checkpoint
+# Resume from checkpoint
 python "Code/ddqn - Load.py"
 ```
 
-Swap `ddqn` for `dueling_dqn` or `dueling_ddqn` to run other variants.
+Swap `ddqn` for `dueling_dqn` or `dueling_ddqn` to run the other variants.
+
+---
+
+## Tech
+
+- **Language:** Python
+- **Libraries:** TensorFlow / Keras, NumPy, OpenAI Gym
+- **Tracking:** Custom stats logging → `Stats.xlsx` + matplotlib
+
+---
+
+## Context
+
+Built as part of academic research into how different RL architectures learn game playing behaviour from scratch, no prior knowledge, just reward signals and time.
+
